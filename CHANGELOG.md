@@ -20,6 +20,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.1.1] - 2024-12-13
+
+### Changed
+- Removed auto-navigation from splash screen
+- User must click to continue after animation
+
+### Added
+- Continue prompt with fade-in animation
+- Pulsing dot indicator
+- Click-anywhere navigation
+- Desktop route with fade transition
+- .gitignore file
+
+### Fixed
+- Git tracking of build artifacts
+- Asset path in README panel
+
 ## [0.1.0] - 2025-12-13
 
 ### Added
@@ -103,12 +120,6 @@ assets/
 - **0.x.x** - Pre-release development
 - **1.0.0** - First production release (when all features complete)
 
-### Git Tags
-```bash
-git tag -a v0.1.0 -m "Initial splash screen implementation"
-git push origin v0.1.0
-```
 
----
-
+[0.1.1]: https://github.com/dhyaan-dds08/portfolio/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/dhyaan-dds08/portfolio/releases/tag/v0.1.0

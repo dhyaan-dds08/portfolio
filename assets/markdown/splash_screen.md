@@ -66,7 +66,14 @@ Interval(0.1, 1.0, curve: Curves.easeInOut)
 
 **Remaining 90%** | **Curves.easeInOut** - Smooth start and end
 
----
+### Stage 3: Continue Prompt (2.85s - 3.0s)
+```dart
+Interval(0.95, 1.0, curve: Curves.easeIn)
+```
+
+**Last 5% of timeline** | **Fades in after progress completes**
+
+**Includes:** Pulsing indicator (infinite repeat animation) for visual attention
 
 ## Widget Rendering
 
@@ -141,15 +148,50 @@ Navigator.push(PageRouteBuilder(
 
 ## Navigation Flow
 
+### User-Controlled Navigation
 ```dart
+bool _animationComplete = false;
+
 _controller.addStatusListener((status) {
   if (status == AnimationStatus.completed) {
-    context.go('/selector'); // After 3 seconds
+    setState(() => _animationComplete = true); // Mark complete, don't auto-navigate
   }
 });
+
+void _continue() {
+  if (_animationComplete) {
+    context.go('/desktop'); // User-triggered navigation
+  }
+}
 ```
 
-**Path:** Splash → Version Selector → Desktop (BLoC/Riverpod/GetX)
+**Animation completes → User chooses:**
+- Click "Continue" prompt (fades in after animation)
+- Click anywhere on screen
+- View README via info button (ℹ️)
+
+### Continue Prompt Animation
+```dart
+_continueOpacityAnimation = Tween(begin: 0.0, end: 1.0).animate(
+  CurvedAnimation(
+    parent: _controller,
+    curve: Interval(0.95, 1.0, curve: Curves.easeIn),
+  ),
+);
+```
+
+**Stage 3: Continue Prompt (2.85s - 3.0s)**
+- Fades in during last 5% of animation
+- Includes pulsing indicator for attention
+- "Click to continue" text with visual feedback
+
+**Why User-Controlled?**
+- Gives time to explore info button
+- No arbitrary delays or forced countdowns
+- Professional UX (user in control)
+- Prevents rushed feeling
+
+**Path:** Splash (3s animation) → User clicks → macOS Desktop
 
 ---
 
@@ -163,6 +205,7 @@ _controller.addStatusListener((status) {
 | One controller | Two controllers | Synchronized, 16KB saved, cleaner code |
 | PageRouteBuilder | showDialog() | Custom transitions, transparent overlay |
 | GoRouter | Navigator 2.0 | Type-safe, deep linking, less boilerplate |
+| User-controlled nav | Auto-navigation | Gives time to explore info, professional UX |
 
 ---
 
