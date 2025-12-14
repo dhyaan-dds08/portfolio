@@ -12,7 +12,7 @@ class PageRoutes {
         pageBuilder: (context, state) {
           return CustomTransitionPage(
             key: state.pageKey,
-            child: const MacosDesktop(),
+            child: const MacOSDesktop(),
             transitionsBuilder:
                 (context, animation, secondaryAnimation, child) {
                   return FadeTransition(

@@ -23,27 +23,30 @@ Developer portfolio featuring a macOS boot-style splash screen with smooth anima
 - **go_router:** ^17.0.1 - Declarative routing with deep linking support
 
 ### UI & Documentation
-- **google_fonts:**  ^6.3.3 - Courier Prime monospace typography
+- **google_fonts:** ^6.3.3 - Courier Prime monospace typography
 - **flutter_markdown_plus:** ^1.0.5 - README panel rendering
+- **cached_network_image:** ^3.4.1  - Wallpaper loading with caching
+- **url_launcher:** ^6.3.2 - A Flutter plugin for launching a URL 
 
 ---
 
 ## 📁 Project Structure
+
 ```
 lib/
 ├── main.dart
-├── routes/
-│   └── page_routes.dart          # GoRouter configuration
+├── routes/page_routes.dart
 ├── screens/
-│   └── splash_screen.dart        # macOS boot animation
+│   ├── splash_screen.dart
+│   └── macos_desktop.dart
 └── utils/
-└── readme.dart               # Documentation side panel
+    ├── readme.dart
+    └── responsive.dart
+
 assets/
 └── markdown/
-└── splash_screen.md          # Technical documentation
-pubspec.yaml
-CHANGELOG.md
-README.md
+    ├── splash_screen.md
+    └── macos_desktop.md
 ```
 ---
 
@@ -63,6 +66,24 @@ README.md
 - Markdown rendering with custom styling
 - VS Code dark theme colors
 - Terminal aesthetic (cyan headers, green code blocks)
+
+### macOS Desktop
+- Interactive dock with distance-based magnification
+- Real macOS behavior (smooth wave effect)
+- Mouse position tracking via ChangeNotifier
+- 6 dock icons: Mobile, Web, Backend, AWS, Call, Mail
+- Responsive design (mobile/tablet/desktop breakpoints)
+- Menu bar with blur effect (glass morphism)
+- About dropdown menu (Resume, GitHub, LinkedIn)
+- IST time display with location tooltip
+- Dynamic wallpaper with caching
+
+### Responsive System
+- Custom breakpoint helper (no package bloat)
+- Mobile (<600px), Tablet (600-1023px), Desktop (≥1024px)
+- Adaptive sizing for dock icons, spacing, fonts
+- Horizontal scroll fallback on mobile
+- Touch-optimized interactions
 
 ---
 
@@ -96,6 +117,8 @@ dependencies:
   go_router: ^17.0.1
   google_fonts: ^6.3.3
   flutter_markdown_plus: ^1.0.5
+  cached_network_image: ^3.4.1
+  url_launcher: ^6.3.2
 
 flutter:
 
@@ -132,6 +155,7 @@ Each screen includes interactive technical documentation accessible via the info
 
 **Current documentation:**
 - `assets/markdown/splash_screen.md` - Animation architecture, widget decisions, performance optimizations
+- `assets/markdown/macos_desktop.md` - Dock magnification system, responsive design, menu bar implementation
 
 **Access:** Click floating action button on any screen to view implementation details.
 
@@ -140,7 +164,8 @@ Each screen includes interactive technical documentation accessible via the info
 ## 🏗️ Architecture Decisions
 
 ### State Management
-**Currently:** None required (StatefulWidget sufficient for splash)
+
+**Currently:** ChangeNotifier for dock mouse tracking  # CHANGE THIS LINE
 
 **Future:** BLoC, Riverpod, GetX implementations for desktop screens
 
@@ -185,6 +210,9 @@ This portfolio demonstrates:
 - ✅ Efficient widget rebuilds
 - ✅ Custom transitions
 - ✅ Markdown rendering
+- ✅ Responsive design patterns  
+- ✅ Distance-based interactions 
+- ✅ RenderBox coordinate systems  
 - ✅ Web optimization
 
 ---
@@ -196,12 +224,15 @@ This portfolio demonstrates:
 - ✅ GoRouter navigation structure
 - ✅ Splash screen with animations
 - ✅ README panel system
-- ✅ Documentation (splash_screen.md)
+- ✅ macOS Desktop with interactive dock
+- ✅ Menu bar with blur effect
+- ✅ Responsive helper system 
+- ✅ Documentation (splash_screen.md, macos_desktop.md)
 - ✅ Performance optimizations
 
 **In Progress:**
-- 🚧 Version selector screen
-- 🚧 macOS desktop UI components
+- 🚧 macOS windows system  # CHANGE FROM "desktop UI components"
+- 🚧 Project showcase content
 - 🚧 State management implementations
 
 **Planned:**

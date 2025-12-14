@@ -12,7 +12,7 @@ class ReadmeDialog extends StatelessWidget {
     Navigator.of(context).push(
       PageRouteBuilder(
         opaque: false,
-        pageBuilder: (context, _, __) => ReadmeDialog(mdFilePath: mdFilePath),
+        pageBuilder: (context, _, _) => ReadmeDialog(mdFilePath: mdFilePath),
         transitionsBuilder: (context, animation, _, child) {
           return SlideTransition(
             position: Tween<Offset>(

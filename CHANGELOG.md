@@ -18,9 +18,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Project showcase sections (iOS, Android, Web, Backend)
 - Side-by-side comparison mode
 
----
+## [0.1.2] - 2025-12-14
 
-## [0.1.1] - 2024-12-13
+### Added
+- macOS Desktop screen with interactive dock
+- Distance-based icon magnification (real macOS behavior)
+- Menu bar with About dropdown (Resume, GitHub, LinkedIn links)
+- IST time display with location tooltip
+- Responsive helper for breakpoints
+- Wallpaper with CachedNetworkImage
+
+### Changed
+- Dock uses ChangeNotifier for mouse tracking
+- Time shows IST (developer timezone)
+
+### Dependencies
+- `cached_network_image: ^3.4.1`
+- `url_launcher: ^6.2.5`
+
+## [0.1.1] - 2025-12-13
 
 ### Changed
 - Removed auto-navigation from splash screen
@@ -76,9 +92,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - CHANGELOG.md (this file)
 
 - **Dependencies**
-  - google_fonts: ^6.3.3 (Courier Prime typography)
-  - flutter_markdown_plus: ^1.0.5 (documentation rendering)
-  - go_router: ^17.0.1 (navigation)
+  - `google_fonts: ^6.3.3 (Courier Prime typography)`
+  - `flutter_markdown_plus: ^1.0.5 (documentation rendering)`
+  - `go_router: ^17.0.1 (navigation)`
 
 ### Technical Details
 - **Animation architecture**
@@ -120,6 +136,6 @@ assets/
 - **0.x.x** - Pre-release development
 - **1.0.0** - First production release (when all features complete)
 
-
+[0.1.2]: https://github.com/dhyaan-dds08/portfolio/releases/tag/v0.1.2
 [0.1.1]: https://github.com/dhyaan-dds08/portfolio/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/dhyaan-dds08/portfolio/releases/tag/v0.1.0
