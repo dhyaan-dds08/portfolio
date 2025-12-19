@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:my_portfolio/macos_desktop.dart';
-import 'package:my_portfolio/splash_screen.dart';
+import 'package:my_portfolio/screen/macos_desktop.dart';
+import 'package:my_portfolio/screen/splash_screen.dart';
 
 class PageRoutes {
   static final goRouter = GoRouter(

@@ -18,6 +18,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Project showcase sections (iOS, Android, Web, Backend)
 - Side-by-side comparison mode
 
+## [0.1.3] - 2025-12-15
+- added native splash screen so that until the flutter stuff is initialised we still see the same splash screen and not default html splash
+
+
 ## [0.1.2] - 2025-12-14
 
 ### Added

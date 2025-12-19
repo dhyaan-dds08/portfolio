@@ -3,8 +3,11 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:my_portfolio/screen/mobile/mobile_terminal_screen.dart';
+import 'package:my_portfolio/screen/mobile/terminal_state.dart';
 import 'package:my_portfolio/utils/readme.dart';
 import 'package:my_portfolio/utils/responsive.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MacOSDesktop extends StatefulWidget {
@@ -357,7 +360,15 @@ class _MacOSDockState extends State<_MacOSDock> {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               _buildIcon(0, Icons.phone_iphone, 'Mobile', () {
-                print(' clicked');
+                // Open terminal window
+                showDialog(
+                  context: context,
+                  barrierColor: Colors.black.withOpacity(0.5),
+                  builder: (context) => ChangeNotifierProvider(
+                    create: (_) => TerminalState(),
+                    child: MobileTerminalScreen(),
+                  ),
+                );
               }),
               SizedBox(width: Responsive.dockSpacing(context)),
               _buildIcon(1, Icons.language, 'Web', () {
