@@ -20,6 +20,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.1.3] - 2025-12-15
 - added native splash screen so that until the flutter stuff is initialised we still see the same splash screen and not default html splash
+- Interactive terminal with build simulation
+- Provider state management (ChangeNotifier)
+- Hive CE persistent storage
+- JSON serializable command history
+- Keyboard shortcuts and history navigation
+- Dual-history system (session + persistent)
+- iOS/Android build workflows
+- Selectable text and professional UI
+
+Dependencies: Provider, Hive CE, JSON Serializable, Path Provider
+
 
 
 ## [0.1.2] - 2025-12-14

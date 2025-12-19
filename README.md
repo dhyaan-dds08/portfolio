@@ -22,11 +22,21 @@ Developer portfolio featuring a macOS boot-style splash screen with smooth anima
 ### Navigation
 - **go_router:** ^17.0.1 - Declarative routing with deep linking support
 
+### State Management
+- **provider:** ^6.1.5+1 - Reactive state with ChangeNotifier pattern
+
+### Data Persistence
+- **hive_ce:** ^2.15.1 - NoSQL local database for command history
+- **json_annotation:** ^4.9.0 - JSON serialization annotations
+- **json_serializable:** ^6.11.3 - Type-safe JSON code generation
+- **build_runner:** ^2.10.4 - Build-time code generation
+- **path_provider:** ^2.1.5 - Platform-specific storage paths
+
 ### UI & Documentation
 - **google_fonts:** ^6.3.3 - Courier Prime monospace typography
 - **flutter_markdown_plus:** ^1.0.5 - README panel rendering
-- **cached_network_image:** ^3.4.1  - Wallpaper loading with caching
-- **url_launcher:** ^6.3.2 - A Flutter plugin for launching a URL 
+- **cached_network_image:** ^3.4.1 - Wallpaper loading with caching
+- **url_launcher:** ^6.3.2 - External link launching
 
 ---
 
@@ -35,18 +45,26 @@ Developer portfolio featuring a macOS boot-style splash screen with smooth anima
 ```
 lib/
 ├── main.dart
-├── routes/page_routes.dart
+├── page_routes.dart
 ├── screens/
 │   ├── splash_screen.dart
-│   └── macos_desktop.dart
+│   ├── macos_desktop.dart
+│   └── mobile/
+│       ├── mobile_terminal_screen.dart
+│       └── terminal_state.dart
+├── models/
+│   ├── frontend_command_history.dart
+│   └── frontend_command_history.g.dart
+├── widgets/
+│   └── terminal_window.dart
 └── utils/
     ├── readme.dart
     └── responsive.dart
-
 assets/
 └── markdown/
     ├── splash_screen.md
-    └── macos_desktop.md
+    ├── macos_desktop.md
+    └── mobile_terminal.md
 ```
 ---
 
@@ -85,6 +103,19 @@ assets/
 - Horizontal scroll fallback on mobile
 - Touch-optimized interactions
 
+
+### Mobile Terminal
+- Interactive terminal interface with authentic CLI experience
+- Build simulation for iOS/Android with stage-by-stage progress
+- Provider state management with ChangeNotifier pattern
+- Hive CE persistent storage for command history
+- JSON serializable models for type-safe data persistence
+- Dual-history system: session-based display + full persistent access
+- Keyboard shortcuts: Up/Down arrow navigation
+- Commands: build ios/android, clear, history, help
+- Selectable terminal text for copy/paste
+- Chat-style command history cards with timestamps
+- Auto-scroll and auto-focus UX
 ---
 
 ## 🚀 Getting Started
@@ -110,15 +141,20 @@ flutter build web
 dependencies:
   flutter:
     sdk: flutter
-
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
   go_router: ^17.0.1
   google_fonts: ^6.3.3
   flutter_markdown_plus: ^1.0.5
   cached_network_image: ^3.4.1
   url_launcher: ^6.3.2
+  provider: ^6.1.5+1
+  hive_ce: ^2.15.1
+  json_annotation: ^4.9.0
+  path_provider: ^2.1.5
+
+dev_dependencies:
+  json_serializable: ^6.11.3
+  build_runner: ^2.10.4
 
 flutter:
 
@@ -156,6 +192,7 @@ Each screen includes interactive technical documentation accessible via the info
 **Current documentation:**
 - `assets/markdown/splash_screen.md` - Animation architecture, widget decisions, performance optimizations
 - `assets/markdown/macos_desktop.md` - Dock magnification system, responsive design, menu bar implementation
+- `assets/markdown/mobile_terminal.md` - Terminal interface, state management, persistent storage, build simulation
 
 **Access:** Click floating action button on any screen to view implementation details.
 
@@ -165,9 +202,23 @@ Each screen includes interactive technical documentation accessible via the info
 
 ### State Management
 
-**Currently:** ChangeNotifier for dock mouse tracking  # CHANGE THIS LINE
+**Current implementations:**
+- ChangeNotifier for dock mouse tracking
+- Provider + ChangeNotifier for mobile terminal state
+- Hive CE for persistent command history
 
-**Future:** BLoC, Riverpod, GetX implementations for desktop screens
+**Pattern:** Reactive state with notifyListeners() → Consumer rebuilds
+
+**Future:** BLoC, Riverpod implementations for comparison
+
+
+### Data Persistence
+**Hive CE** - Chosen for:
+- NoSQL key-value storage (fast reads/writes)
+- No code generation required (vs Hive classic)
+- Web support (IndexedDB backend)
+- Type-safe with JSON serialization
+- Dual-history system (session + persistent)
 
 ### Navigation
 **GoRouter** - Chosen for:
@@ -210,12 +261,17 @@ This portfolio demonstrates:
 - ✅ Efficient widget rebuilds
 - ✅ Custom transitions
 - ✅ Markdown rendering
-- ✅ Responsive design patterns  
-- ✅ Distance-based interactions 
-- ✅ RenderBox coordinate systems  
+- ✅ Responsive design patterns
+- ✅ Distance-based interactions
+- ✅ RenderBox coordinate systems
 - ✅ Web optimization
+- ✅ Provider state management
+- ✅ Hive CE local storage
+- ✅ JSON serialization
+- ✅ Command-line interface patterns
+- ✅ Keyboard event handling
 
----
+
 
 ## 🔄 Current Status
 
@@ -226,21 +282,23 @@ This portfolio demonstrates:
 - ✅ README panel system
 - ✅ macOS Desktop with interactive dock
 - ✅ Menu bar with blur effect
-- ✅ Responsive helper system 
-- ✅ Documentation (splash_screen.md, macos_desktop.md)
+- ✅ Responsive helper system
+- ✅ Mobile Terminal with persistent history
+- ✅ Provider state management
+- ✅ Hive CE storage implementation
+- ✅ Documentation (splash_screen.md, macos_desktop.md, mobile_terminal.md)
 - ✅ Performance optimizations
 
 **In Progress:**
-- 🚧 macOS windows system  # CHANGE FROM "desktop UI components"
-- 🚧 Project showcase content
-- 🚧 State management implementations
+- 🚧 Mobile project showcase (phone simulator UI)
+- 🚧 Desktop windows system
 
 **Planned:**
-- 📋 BLoC version
-- 📋 Riverpod version
-- 📋 GetX version
-- 📋 Project showcase sections
-- 📋 Comparison features
+- 📋 Phone simulator with app icons
+- 📋 BigShorts app details view
+- 📋 Web projects section
+- 📋 Backend projects section
+- 📋 AWS projects section
 
 ---
 
@@ -275,6 +333,12 @@ Special thanks to the maintainers and contributors of these packages:
 - **[go_router](https://pub.dev/packages/go_router)** by Flutter Team - Declarative routing made simple
 - **[google_fonts](https://pub.dev/packages/google_fonts)** by Material Foundation - Easy access to 1000+ font families
 - **[flutter_markdown_plus](https://pub.dev/packages/flutter_markdown_plus)** by community contributors - Markdown rendering for Flutter
+- **[provider](https://pub.dev/packages/provider)** by Remi Rousselet - Simple and scalable state management
+- **[hive_ce](https://pub.dev/packages/hive_ce)** by Community Edition maintainers - Fast and lightweight NoSQL database
+- **[json_serializable](https://pub.dev/packages/json_serializable)** by Dart Team - Type-safe JSON serialization
+- **[cached_network_image](https://pub.dev/packages/cached_network_image)** by Baseflow - Efficient image loading and caching
+- **[url_launcher](https://pub.dev/packages/url_launcher)** by Flutter Team - URL launching capabilities
+
 
 ### Community
 - Stack Overflow community for troubleshooting support
