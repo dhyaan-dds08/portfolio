@@ -42,30 +42,23 @@ class _MobileTerminalScreenState extends State<MobileTerminalScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: TerminalWindow(
-        title: 'dhyaan@portfolio:~/mobile-projects',
-        onClose: () => Navigator.pop(context),
-        child: GestureDetector(
-          onTap: () => _commandFocusNode.requestFocus(),
-          child: Scaffold(
-            backgroundColor: Color(0xFF1E1E1E),
-
-            body: Consumer<TerminalState>(
-              builder: (context, state, child) {
-                switch (state.buildState) {
-                  case BuildState.idle:
-                    return _buildIdleState(state);
-                  case BuildState.building:
-                    return _buildBuildingState(state);
-                  case BuildState.complete:
-                    return _buildCompleteState(state);
-                  case BuildState.simulatorReady:
-                    return _buildSimulatorState(state);
-                }
-              },
-            ),
-          ),
+    return GestureDetector(
+      onTap: () => _commandFocusNode.requestFocus(),
+      child: Scaffold(
+        backgroundColor: Color(0xFF1E1E1E),
+        body: Consumer<TerminalState>(
+          builder: (context, state, child) {
+            switch (state.buildState) {
+              case BuildState.idle:
+                return _buildIdleState(state);
+              case BuildState.building:
+                return _buildBuildingState(state);
+              case BuildState.complete:
+                return _buildCompleteState(state);
+              case BuildState.simulatorReady:
+                return _buildSimulatorState(state);
+            }
+          },
         ),
       ),
     );

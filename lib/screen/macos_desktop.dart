@@ -5,8 +5,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:my_portfolio/screen/mobile/mobile_terminal_screen.dart';
 import 'package:my_portfolio/screen/mobile/terminal_state.dart';
+import 'package:my_portfolio/utils/minimised_apps_notifier.dart';
 import 'package:my_portfolio/utils/readme.dart';
 import 'package:my_portfolio/utils/responsive.dart';
+import 'package:my_portfolio/widgets/terminal_window.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -94,96 +96,101 @@ class _MacOSDesktopState extends State<MacOSDesktop> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.black.withOpacity(0.4),
-        elevation: 0,
-        toolbarHeight: 44,
-        automaticallyImplyLeading: false,
-        flexibleSpace: ClipRect(
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-            child: Container(color: Colors.transparent),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => MinimizedAppsNotifier()),
+      ],
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.black.withOpacity(0.4),
+          elevation: 0,
+          toolbarHeight: 44,
+          automaticallyImplyLeading: false,
+          flexibleSpace: ClipRect(
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+              child: Container(color: Colors.transparent),
+            ),
+          ),
+          title: Row(
+            children: [
+              // Logo - clickable for About menu
+              _MacOSMenuButton(
+                label: '<DS/>',
+                onPressed: () => _showAboutMenu(context),
+              ),
+            ],
+          ),
+          actions: [
+            // Time
+            Tooltip(
+              message: 'Based in Mumbai, India (UTC + 5:30)',
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 12),
+                child: Center(
+                  child: Text(
+                    _getCurrentTime(),
+                    style: GoogleFonts.courierPrime(
+                      color: Colors.white,
+                      fontSize: 13,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(width: 8),
+          ],
+        ),
+        floatingActionButton: Padding(
+          padding: EdgeInsets.only(top: 50),
+          child: FloatingActionButton.small(
+            onPressed: () =>
+                ReadmeDialog.show(context, 'assets/markdown/macos_desktop.md'),
+            backgroundColor: Colors.white.withOpacity(0.1),
+            child: Icon(Icons.info_outline, color: Colors.white, size: 20),
           ),
         ),
-        title: Row(
+        floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
+        backgroundColor: Colors.black,
+        body: Stack(
           children: [
-            // Logo - clickable for About menu
-            _MacOSMenuButton(
-              label: '<DS/>',
-              onPressed: () => _showAboutMenu(context),
+            // macOS wallpaper background
+            Positioned.fill(
+              child: CachedNetworkImage(
+                imageUrl:
+                    'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                fit: BoxFit.cover,
+                placeholder: (context, url) => Container(
+                  color: Colors.black,
+                  child: Center(
+                    child: CircularProgressIndicator(
+                      color: Colors.white.withOpacity(0.3),
+                      strokeWidth: 2,
+                    ),
+                  ),
+                ),
+                errorWidget: (context, url, error) => Container(
+                  color: Colors.black,
+                  child: Center(
+                    child: Icon(
+                      Icons.wallpaper,
+                      color: Colors.white.withOpacity(0.3),
+                      size: 48,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+
+            // Dock at bottom
+            Positioned(
+              bottom: Responsive.isMobile(context) ? 10 : 20,
+              left: 0,
+              right: 0,
+              child: Center(child: _MacOSDock()),
             ),
           ],
         ),
-        actions: [
-          // Time
-          Tooltip(
-            message: 'Based in Mumbai, India (UTC + 5:30)',
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 12),
-              child: Center(
-                child: Text(
-                  _getCurrentTime(),
-                  style: GoogleFonts.courierPrime(
-                    color: Colors.white,
-                    fontSize: 13,
-                  ),
-                ),
-              ),
-            ),
-          ),
-          SizedBox(width: 8),
-        ],
-      ),
-      floatingActionButton: Padding(
-        padding: EdgeInsets.only(top: 50),
-        child: FloatingActionButton.small(
-          onPressed: () =>
-              ReadmeDialog.show(context, 'assets/markdown/macos_desktop.md'),
-          backgroundColor: Colors.white.withOpacity(0.1),
-          child: Icon(Icons.info_outline, color: Colors.white, size: 20),
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
-      backgroundColor: Colors.black,
-      body: Stack(
-        children: [
-          // macOS wallpaper background
-          Positioned.fill(
-            child: CachedNetworkImage(
-              imageUrl:
-                  'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-              fit: BoxFit.cover,
-              placeholder: (context, url) => Container(
-                color: Colors.black,
-                child: Center(
-                  child: CircularProgressIndicator(
-                    color: Colors.white.withOpacity(0.3),
-                    strokeWidth: 2,
-                  ),
-                ),
-              ),
-              errorWidget: (context, url, error) => Container(
-                color: Colors.black,
-                child: Center(
-                  child: Icon(
-                    Icons.wallpaper,
-                    color: Colors.white.withOpacity(0.3),
-                    size: 48,
-                  ),
-                ),
-              ),
-            ),
-          ),
-
-          // Dock at bottom
-          Positioned(
-            bottom: Responsive.isMobile(context) ? 10 : 20,
-            left: 0,
-            right: 0,
-            child: Center(child: _MacOSDock()),
-          ),
-        ],
       ),
     );
   }
@@ -315,6 +322,9 @@ class _MacOSDockState extends State<_MacOSDock> {
   late final _MousePositionNotifier _mouseNotifier;
   final List<GlobalKey> _iconKeys = List.generate(6, (_) => GlobalKey());
 
+  // ✅ Store window state
+  WindowState? _savedMobileTerminalState;
+
   @override
   void initState() {
     super.initState();
@@ -325,6 +335,51 @@ class _MacOSDockState extends State<_MacOSDock> {
   void dispose() {
     _mouseNotifier.dispose();
     super.dispose();
+  }
+
+  void _openMobileTerminal(BuildContext context, {WindowState? savedState}) {
+    final minimizedNotifier = context.read<MinimizedAppsNotifier>();
+
+    showDialog(
+      context: context,
+      barrierColor: Colors.black.withOpacity(0.5),
+      barrierDismissible: false,
+      builder: (dialogContext) => MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (_) => TerminalState()),
+          ChangeNotifierProvider.value(value: minimizedNotifier),
+        ],
+        child: DraggableTerminalWindow(
+          title: 'dhyaan@portfolio:~/mobile-projects',
+          readmePath: 'assets/markdown/mobile_terminal.md',
+          initialX: savedState?.x,
+          initialY: savedState?.y,
+          initialWidth: savedState?.width ?? 800,
+          initialHeight: savedState?.height ?? 600,
+          onClose: () => Navigator.pop(dialogContext),
+          onMinimize: (state) {
+            // Save state for restoration
+            _savedMobileTerminalState = state;
+
+            // Add to dock
+            minimizedNotifier.addMinimizedApp(
+              MinimizedApp(
+                id: 'mobile-terminal',
+                title: 'Mobile Terminal',
+                icon: Icons.phone_iphone,
+                onRestore: () =>
+                    _openMobileTerminal(context, savedState: state),
+                x: state.x,
+                y: state.y,
+                width: state.width,
+                height: state.height,
+              ),
+            );
+          },
+          child: MobileTerminalScreen(),
+        ),
+      ),
+    );
   }
 
   @override
@@ -344,66 +399,92 @@ class _MacOSDockState extends State<_MacOSDock> {
       },
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
-
         child: Container(
           padding: EdgeInsets.symmetric(
             horizontal: Responsive.dockPadding(context),
             vertical: Responsive.dockPadding(context),
           ),
-          decoration: BoxDecoration(
-            color: Colors.transparent,
-            // borderRadius: BorderRadius.circular(16),
-            // border: Border.all(color: Colors.white.withOpacity(0.2), width: 1),
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              _buildIcon(0, Icons.phone_iphone, 'Mobile', () {
-                // Open terminal window
-                showDialog(
-                  context: context,
-                  barrierColor: Colors.black.withOpacity(0.5),
-                  builder: (context) => ChangeNotifierProvider(
-                    create: (_) => TerminalState(),
-                    child: MobileTerminalScreen(),
+          child: Consumer<MinimizedAppsNotifier>(
+            builder: (context, minimizedNotifier, _) {
+              return Row(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  _buildIcon(0, Icons.phone_iphone, 'Mobile', () {
+                    _openMobileTerminal(context);
+                  }),
+                  SizedBox(width: Responsive.dockSpacing(context)),
+                  _buildIcon(1, Icons.language, 'Web', () {
+                    print('Web clicked');
+                  }),
+                  SizedBox(width: Responsive.dockSpacing(context)),
+                  _buildIcon(2, Icons.terminal, 'Backend', () {
+                    print('Backend clicked');
+                  }),
+                  SizedBox(width: Responsive.dockSpacing(context)),
+                  _buildIcon(3, Icons.cloud, 'AWS', () {
+                    print('AWS clicked');
+                  }),
+
+                  // Divider
+                  Container(
+                    width: 1,
+                    height: Responsive.dockDividerHeight(context),
+                    margin: EdgeInsets.symmetric(
+                      horizontal: Responsive.dockSpacing(context),
+                    ),
+                    color: Colors.white.withOpacity(0.2),
                   ),
-                );
-              }),
-              SizedBox(width: Responsive.dockSpacing(context)),
-              _buildIcon(1, Icons.language, 'Web', () {
-                print(' clicked');
-              }),
-              SizedBox(width: Responsive.dockSpacing(context)),
-              _buildIcon(2, Icons.terminal, 'Backend', () {
-                print(' clicked');
-              }),
-              SizedBox(width: Responsive.dockSpacing(context)),
-              _buildIcon(3, Icons.cloud, 'AWS', () {
-                print(' clicked');
-              }),
 
-              // Divider
-              Container(
-                width: 1,
-                height: Responsive.dockDividerHeight(context),
-                margin: EdgeInsets.symmetric(
-                  horizontal: Responsive.dockSpacing(context),
-                ),
-                color: Colors.white.withOpacity(0.2),
-              ),
+                  _buildIcon(4, Icons.phone, 'Call', () {
+                    print('Call clicked');
+                  }),
+                  SizedBox(width: Responsive.dockSpacing(context)),
+                  _buildIcon(5, Icons.email, 'Mail', () {
+                    print('Mail clicked');
+                  }),
 
-              _buildIcon(4, Icons.phone, 'Call', () {
-                print(' clicked');
-              }),
-              SizedBox(width: Responsive.dockSpacing(context)),
-              _buildIcon(5, Icons.email, 'Mail', () {
-                print(' clicked');
-              }),
-            ],
+                  // ✅ Minimized apps section
+                  if (minimizedNotifier.minimizedApps.isNotEmpty) ...[
+                    Container(
+                      width: 1,
+                      height: Responsive.dockDividerHeight(context),
+                      margin: EdgeInsets.symmetric(
+                        horizontal: Responsive.dockSpacing(context),
+                      ),
+                      color: Colors.white.withOpacity(0.2),
+                    ),
+
+                    ...minimizedNotifier.minimizedApps.map((app) {
+                      return Row(
+                        children: [
+                          _buildMinimizedIcon(app),
+                          SizedBox(width: Responsive.dockSpacing(context)),
+                        ],
+                      );
+                    }).toList(),
+                  ],
+                ],
+              );
+            },
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildMinimizedIcon(MinimizedApp app) {
+    final minimizedNotifier = context.read<MinimizedAppsNotifier>();
+
+    return _DockIcon(
+      key: ValueKey(app.id),
+      icon: app.icon,
+      label: app.title,
+      mouseNotifier: _mouseNotifier,
+      isMinimized: true, // ✅ New flag
+      onTap: () {
+        minimizedNotifier.restoreApp(app.id);
+      },
     );
   }
 
@@ -428,6 +509,7 @@ class _DockIcon extends StatelessWidget {
   final String label;
   final _MousePositionNotifier mouseNotifier;
   final VoidCallback onTap;
+  final bool isMinimized; // ✅ New parameter
 
   const _DockIcon({
     super.key,
@@ -435,6 +517,7 @@ class _DockIcon extends StatelessWidget {
     required this.label,
     required this.mouseNotifier,
     required this.onTap,
+    this.isMinimized = false, // ✅ Default false
   });
 
   double _calculateScale(BuildContext context, Offset? mousePosition) {
@@ -443,19 +526,15 @@ class _DockIcon extends StatelessWidget {
     final RenderBox? box = context.findRenderObject() as RenderBox?;
     if (box == null) return 1.0;
 
-    // Get icon position
     final iconPosition = box.localToGlobal(Offset.zero);
     final iconCenter =
         iconPosition + Offset(box.size.width / 2, box.size.height / 2);
 
-    // Calculate distance from mouse to icon center
     final distance = (mousePosition - iconCenter).distance;
 
-    // Magnification range: 150px radius
     const maxDistance = 150.0;
     if (distance > maxDistance) return 1.0;
 
-    // Scale from 1.0 to 1.33 based on distance
     final scale = 1.0 + (1.0 - (distance / maxDistance)) * 0.33;
     return scale.clamp(1.0, 1.33);
   }
@@ -483,12 +562,12 @@ class _DockIcon extends StatelessWidget {
             tween: Tween(begin: baseSize, end: currentSize),
             builder: (context, animatedSize, child) {
               return SizedBox(
-                width: baseSize * 1.33, // Reserve space for max size
+                width: baseSize * 1.33,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    // Label (desktop only, on hover)
+                    // Label
                     AnimatedOpacity(
                       duration: Duration(milliseconds: 150),
                       opacity: (isHovered && !isMobile) ? 1.0 : 0.0,
@@ -516,27 +595,50 @@ class _DockIcon extends StatelessWidget {
 
                     if (isHovered && !isMobile) SizedBox(height: 4),
 
-                    // Icon container
-                    Container(
-                      width: animatedSize,
-                      height: animatedSize,
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(
-                          Responsive.dockBorderRadius(context),
-                        ),
-                        border: Border.all(
-                          color: Colors.white.withOpacity(
-                            isHovered ? 0.3 : 0.1,
+                    // Icon container with minimized indicator
+                    Stack(
+                      children: [
+                        Container(
+                          width: animatedSize,
+                          height: animatedSize,
+                          decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(
+                              Responsive.dockBorderRadius(context),
+                            ),
+                            border: Border.all(
+                              color: Colors.white.withOpacity(
+                                isHovered ? 0.3 : 0.1,
+                              ),
+                              width: 1,
+                            ),
                           ),
-                          width: 1,
+                          child: Icon(
+                            icon,
+                            color: Colors.white,
+                            size: animatedSize * 0.5,
+                          ),
                         ),
-                      ),
-                      child: Icon(
-                        icon,
-                        color: Colors.white,
-                        size: animatedSize * 0.5,
-                      ),
+
+                        // ✅ Minimized indicator (orange dot)
+                        if (isMinimized)
+                          Positioned(
+                            bottom: 2,
+                            left: animatedSize / 2 - 3,
+                            child: Container(
+                              width: 6,
+                              height: 6,
+                              decoration: BoxDecoration(
+                                color: Colors.orange,
+                                shape: BoxShape.circle,
+                                border: Border.all(
+                                  color: Colors.black.withOpacity(0.5),
+                                  width: 1,
+                                ),
+                              ),
+                            ),
+                          ),
+                      ],
                     ),
                   ],
                 ),

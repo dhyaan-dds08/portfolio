@@ -2,6 +2,9 @@
 
 Full-featured macOS desktop interface with interactive dock, distance-based magnification, and responsive design. Demonstrates advanced Flutter animations and efficient state management.
 
+## Window Management
+
+> **Detailed Documentation:** See [draggable_terminal_window.md](draggable_terminal_window.md) for complete technical implementation details, architecture decisions, and code examples.
 
 **This screen demonstrates:**
 - Advanced animation techniques (distance-based scaling, smooth interpolation)

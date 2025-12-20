@@ -18,7 +18,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Project showcase sections (iOS, Android, Web, Backend)
 - Side-by-side comparison mode
 
-## [0.1.3] - 2025-12-15
+
+## [0.1.4] - 2025-12-20
+- Terminal window now fully draggable and resizable
+- Window controls now interactive with hover states
+- Dock dynamically shows minimized applications
+- Terminal state persists across minimize/restore cycles
+
+Dependencies: Provider, Hive CE, JSON Serializable, Path Provider
+
+## [0.1.3] - 2025-12-19
 - added native splash screen so that until the flutter stuff is initialised we still see the same splash screen and not default html splash
 - Interactive terminal with build simulation
 - Provider state management (ChangeNotifier)

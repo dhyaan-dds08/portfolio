@@ -60,11 +60,13 @@ lib/
 └── utils/
     ├── readme.dart
     └── responsive.dart
+    └── minimised_apps_notifier.dart
 assets/
 └── markdown/
     ├── splash_screen.md
     ├── macos_desktop.md
     └── mobile_terminal.md
+    └── draggable_terminal_window.md
 ```
 ---
 
@@ -193,6 +195,7 @@ Each screen includes interactive technical documentation accessible via the info
 - `assets/markdown/splash_screen.md` - Animation architecture, widget decisions, performance optimizations
 - `assets/markdown/macos_desktop.md` - Dock magnification system, responsive design, menu bar implementation
 - `assets/markdown/mobile_terminal.md` - Terminal interface, state management, persistent storage, build simulation
+- `assets/markdown/draggable_terminal_window.md` - Interactive draggable windows with minimize to dock
 
 **Access:** Click floating action button on any screen to view implementation details.
 
@@ -286,8 +289,9 @@ This portfolio demonstrates:
 - ✅ Mobile Terminal with persistent history
 - ✅ Provider state management
 - ✅ Hive CE storage implementation
-- ✅ Documentation (splash_screen.md, macos_desktop.md, mobile_terminal.md)
+- ✅ Documentation (splash_screen.md, macos_desktop.md, mobile_terminal.md, draggable_terminal_window.md)
 - ✅ Performance optimizations
+- ✅ Interactive draggable windows with minimize to dock
 
 **In Progress:**
 - 🚧 Mobile project showcase (phone simulator UI)
